@@ -1,34 +1,18 @@
 import numpy as np
 import pandas as pd
 import string
+import dill as pkl
+import nltk
+from nltk.corpus import stopwords
 
 from flask import Flask, request, jsonify, render_template
-import pickle
-
-stopwordsList = pickle.load(open('stopwords.list', 'rb'))
 
 
-def textPreprocessor(featureRecord):
-    #a.Remove Punctuation
-    removePunctuation = [char for char in featureRecord if char not in string.punctuation]
-    sentences = ''.join(removePunctuation)
-    
-    #b.Convert Sentences to Words
-    words = sentences.split(" ")
-    
-    #c. Normalize
-    wordNormalized = [word.lower() for word in words]
-    
-    #d. Remove Stopwords
-    finalWords = [word for word in wordNormalized if word not in stopwordsList]
-    
-    return finalWords
-
-
-
-model = pickle.load(open('model.mdl', 'rb'))
-tfIdfObject = pickle.load(open('tfIdfObject.tfidf','rb'))
-finalWordVocab= pickle.load(open('finalWordVocab.bow','rb'))
+#stopwordsList = pickle.load(open('stopwords.list', 'rb'))
+#textPreprocessor = pickle.load(open('textPreprocessor.fn','rb'))
+#model = pickle.load(open('model.mdl', 'rb'))
+#tfIdfObject = pickle.load(open('tfIdfObject.tfidf','rb'))
+#finalWordVocab= pickle.load(open('finalWordVocab.bow','rb'))
 
 app = Flask(__name__)
 
@@ -44,25 +28,15 @@ def home():
  
     
 def predict():
-    
-    def textPreprocessor(featureRecord):
-        #a.Remove Punctuation
-        removePunctuation = [char for char in featureRecord if char not in string.punctuation]
-        sentences = ''.join(removePunctuation)
-    
-        #b.Convert Sentences to Words
-        words = sentences.split(" ")
-    
-        #c. Normalize
-        wordNormalized = [word.lower() for word in words]
-    
-        #d. Remove Stopwords
-        finalWords = [word for word in wordNormalized if word not in stopwordsList]
-    
-        return finalWords
     '''
     For rendering results on HTML GUI
     '''
+    #stopwordsList = pkl.load(open('stopwords.list', 'rb'))
+    textPreprocessor = pkl.load(open('textPreprocessor.fn','rb'))
+    model = pkl.load(open('model.mdl', 'rb'))
+    tfIdfObject = pkl.load(open('tfIdfObject.tfidf','rb'))
+    finalWordVocab= pkl.load(open('finalWordVocab.bow','rb'))
+    
     SMSInput = request.form['SMS']
     
     #1. Preprocess
