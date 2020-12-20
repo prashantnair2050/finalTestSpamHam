@@ -68,19 +68,19 @@ def predict():
 
 if __name__ == "__main__":
     def textPreprocessor(featureRecord):
-    #a.Remove Punctuation
-    removePunctuation = [char for char in featureRecord if char not in string.punctuation]
-    sentences = ''.join(removePunctuation)
+        #a.Remove Punctuation
+        removePunctuation = [char for char in featureRecord if char not in string.punctuation]
+        sentences = ''.join(removePunctuation)
     
-    #b.Convert Sentences to Words
-    words = sentences.split(" ")
+        #b.Convert Sentences to Words
+        words = sentences.split(" ")
     
-    #c. Normalize
-    wordNormalized = [word.lower() for word in words]
+        #c. Normalize
+        wordNormalized = [word.lower() for word in words]
     
-    #d. Remove Stopwords
-    finalWords = [word for word in wordNormalized if word not in stopwordsList]
+        #d. Remove Stopwords
+        finalWords = [word for word in wordNormalized if word not in stopwordsList]
     
-    return finalWords
+        return finalWords
 
     app.run(debug=True)
