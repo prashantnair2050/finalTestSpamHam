@@ -4,6 +4,7 @@ import string
 import dill as pkl
 import nltk
 from nltk.corpus import stopwords
+import sms
 
 from flask import Flask, request, jsonify, render_template
 
@@ -32,7 +33,7 @@ def predict():
     For rendering results on HTML GUI
     '''
     #stopwordsList = pkl.load(open('stopwords.list', 'rb'))
-    textPreprocessor = pkl.load(open('textPreprocessor.fn','rb'))
+    #textPreprocessor = pkl.load(open('textPreprocessor.fn','rb'))
     model = pkl.load(open('model.mdl', 'rb'))
     tfIdfObject = pkl.load(open('tfIdfObject.tfidf','rb'))
     finalWordVocab= pkl.load(open('finalWordVocab.bow','rb'))
@@ -41,7 +42,7 @@ def predict():
     
     #1. Preprocess
 
-    preProcessedFeatures = textPreprocessor(SMSInput)
+    preProcessedFeatures = sms.textPreprocessor(SMSInput)
 
     #2. BOW transformation
     bowFeature = finalWordVocab.transform(preProcessedFeatures)
